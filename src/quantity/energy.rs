@@ -17,10 +17,10 @@ impl Quantity for Energy {
 
 qty_ctor! {
     Energy => {
-        (from_milliwatthours, as_milliwatthours, 0.001),
-        (from_watthours, as_watthours, 1.0),
-        (from_kilowatthours, as_kilowatthours, 1000.0),
-        (from_megawatthours, as_megawatthours, 1_000_000.0)
+        (from_milliwatthours, as_milliwatthours, "mWh", 0.001),
+        (from_watthours, as_watthours, "Wh", 1.0),
+        (from_kilowatthours, as_kilowatthours, "kWh", 1000.0),
+        (from_megawatthours, as_megawatthours, "MWh", 1_000_000.0),
     }
 }
 

@@ -1,3 +1,68 @@
+// Formats an f64 with a given precision and remove trailing zeros
+fn format_float(value: f64, precision: usize) -> String {
+    let mut s = format!("{:.1$}", value, precision);
+    if s.contains('.') {
+        s = s.trim_end_matches('0').to_string();
+    }
+    if s.ends_with('.') {
+        s.pop();
+    }
+    s
+}
+
+macro_rules! qty_format {
+    (@impl $self:ident, $f:ident, $prec:ident,
+        ($ctor:ident, $getter:ident, $unit:literal, $exp:literal),
+    ) => {
+        write!($f, "{} {}", format_float( $self.$getter(), $prec), $unit)
+    };
+
+    (@impl $self:ident, $f:ident, $prec:ident,
+        ($ctor1:ident, $getter1:ident, $unit1:literal, $exp1:literal),
+        ($ctor2:ident, $getter2:ident, $unit2:literal, $exp2:literal), $($rest:tt)*
+    ) => {{
+        const {assert!($exp1 < $exp2, "Units must be in increasing order of magnitude.")};
+
+        if $exp1 <= $self.value && $self.value < $exp2 {
+            write!($f, "{} {}", format_float( $self.$getter1(), $prec), $unit1)
+        } else {
+            qty_format!(@impl $self, $f, $prec, ($ctor2, $getter2, $unit2, $exp2), $($rest)*)
+        }}
+    };
+
+    (@impl $self:ident, $f:ident, $prec:ident,
+        ($ctor1:ident, $getter1:ident, $unit1:literal, $exp1:literal),
+        ($ctor2:ident, $getter2:ident, None, $exp2:literal),
+    ) => {
+        write!($f, "{} {}", format_float( $self.$getter1(), $prec), $unit1)
+    };
+
+    (@start $self:ident, $f:ident, $prec:ident,
+        ($ctor:ident, $getter:ident, $unit:literal, $exp:literal), $($rest:tt)*
+    ) => {
+        if $self.value <= $exp {
+            write!($f, "{} {}", format_float( $self.$getter(), $prec), $unit)
+        } else {
+            qty_format!(@impl $self, $f, $prec, ($ctor, $getter, $unit, $exp), $($rest)*)
+        }
+    };
+
+    ($typename:ident => {$($rest:tt)*}) => {
+        use super::format_float;
+        impl std::fmt::Display for $typename {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                let prec = if let Some(prec) = f.precision() {
+                    prec
+                } else {
+                    3
+                };
+                qty_format!(@start self, f, prec, $($rest)*)
+            }
+
+        }
+    };
+}
+
 pub trait Quantity {
     fn base_value(&self) -> f64;
     fn base_unit(&self) -> &str;
@@ -10,16 +75,16 @@ impl std::fmt::Display for dyn Quantity {
 }
 
 macro_rules! qty_ctor {
-    (@impl ($ctor_method:ident, $get_method:ident, $multiple:literal)) => {
-        pub fn $ctor_method(value: f64) -> Self {
-            Self { value: value * $multiple }
+    (@impl ($ctor:ident, $getter:ident, $unit:tt, $exp:literal) $(,)?) => {
+        pub fn $ctor(value: f64) -> Self {
+            Self { value: value * $exp }
         }
-        pub fn $get_method(&self) -> f64 {
-            self.value / $multiple
+        pub fn $getter(&self) -> f64 {
+            self.value / $exp
         }
     };
-    (@impl ($ctor_method:ident, $get_method:ident, $multiple:literal), $($rest:tt)*) => {
-        qty_ctor!(@impl ($ctor_method, $get_method, $multiple));
+    (@impl ($ctor:ident, $getter:ident, $unit:tt, $exp:literal), $($rest:tt)*) => {
+        qty_ctor!(@impl ($ctor, $getter, $unit, $exp));
         qty_ctor!(@impl $($rest)*);
     };
     (@impl_arith_ops $typename:ident) => {
@@ -69,6 +134,7 @@ macro_rules! qty_ctor {
         }
 
         qty_ctor!{@impl_arith_ops $typename}
+        qty_format!{$typename => {$($rest)*}}
     };
 }
 

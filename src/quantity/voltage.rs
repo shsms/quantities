@@ -17,9 +17,9 @@ impl Quantity for Voltage {
 
 qty_ctor! {
     Voltage => {
-        (from_millivolts, as_millivolts, 0.001),
-        (from_volts, as_volts, 1.0),
-        (from_kilovolts, as_kilovolts, 1000.0)
+        (from_millivolts, as_millivolts, "mV", 0.001),
+        (from_volts, as_volts, "V", 1.0),
+        (from_kilovolts, as_kilovolts, "kV", 1000.0),
     }
 }
 

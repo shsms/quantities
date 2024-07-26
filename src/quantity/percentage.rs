@@ -17,7 +17,7 @@ impl Quantity for Percentage {
 
 qty_ctor! {
     Percentage => {
-        (from_percentage, as_percentage, 1.0),
-        (from_fraction, as_fraction, 100.0)
+        (from_percentage, as_percentage, "%", 1.0),
+        (from_fraction, as_fraction, None, 100.0),
     }
 }

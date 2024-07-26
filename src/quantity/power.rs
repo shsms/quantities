@@ -17,10 +17,10 @@ impl Quantity for Power {
 
 qty_ctor! {
     Power => {
-        (from_watts, as_watts, 1.0),
-        (from_milliwatts, as_milliwatts, 0.001),
-        (from_kilowatts, as_kilowatts, 1000.0),
-        (from_megawatts, as_megawatts, 1_000_000.0)
+        (from_milliwatts, as_milliwatts, "mW", 0.001),
+        (from_watts, as_watts, "W", 1.0),
+        (from_kilowatts, as_kilowatts, "kW", 1000.0),
+        (from_megawatts, as_megawatts, "MW", 1_000_000.0),
     }
 }
 
