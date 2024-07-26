@@ -1,4 +1,4 @@
-use crate::quantity::{Power, Quantity};
+use super::{Percentage, Power, Quantity};
 
 #[derive(Copy, Clone)]
 pub struct Energy {
@@ -15,74 +15,12 @@ impl Quantity for Energy {
     }
 }
 
-// impl std::fmt::Display for Energy {
-//     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-//         write!(f, "{} Wh", self.value)
-//     }
-// }
-
-/// Constructors
-impl Energy {
-    pub fn from_watthours(watthours: f64) -> Energy {
-        Energy { value: watthours }
-    }
-
-    pub fn from_milliwatthours(milliwatthours: f64) -> Energy {
-        Energy {
-            value: milliwatthours / 1000.0,
-        }
-    }
-
-    pub fn from_kilowatthours(kilowatthours: f64) -> Energy {
-        Energy {
-            value: kilowatthours * 1000.0,
-        }
-    }
-
-    pub fn from_megawatthours(megawatthours: f64) -> Energy {
-        Energy {
-            value: megawatthours * 1_000_000.0,
-        }
-    }
-}
-
-/// Getters
-impl Energy {
-    pub fn as_watthours(&self) -> f64 {
-        self.value
-    }
-
-    pub fn as_milliwatthours(&self) -> f64 {
-        self.value * 1000.0
-    }
-
-    pub fn as_kilowatthours(&self) -> f64 {
-        self.value / 1000.0
-    }
-
-    pub fn as_megawatthours(&self) -> f64 {
-        self.value / 1_000_000.0
-    }
-}
-
-/// Arithmetics
-impl std::ops::Add for Energy {
-    type Output = Self;
-
-    fn add(self, rhs: Energy) -> Self::Output {
-        Self {
-            value: self.value + rhs.value,
-        }
-    }
-}
-
-impl std::ops::Sub for Energy {
-    type Output = Self;
-
-    fn sub(self, rhs: Self) -> Self::Output {
-        Self {
-            value: self.value - rhs.value,
-        }
+qty_ctor! {
+    Energy => {
+        (from_milliwatthours, as_milliwatthours, 0.001),
+        (from_watthours, as_watthours, 1.0),
+        (from_kilowatthours, as_kilowatthours, 1000.0),
+        (from_megawatthours, as_megawatthours, 1_000_000.0)
     }
 }
 
