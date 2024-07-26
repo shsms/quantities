@@ -11,6 +11,7 @@ qty_ctor! {
         (from_watthours, as_watthours, "Wh", 1.0),
         (from_kilowatthours, as_kilowatthours, "kWh", 1000.0),
         (from_megawatthours, as_megawatthours, "MWh", 1_000_000.0),
+        (from_gigawatthours, as_gigawatthours, "GWh", 1_000_000_000.0),
     }
 }
 
