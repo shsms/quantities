@@ -63,17 +63,6 @@ macro_rules! qty_format {
     };
 }
 
-pub trait Quantity {
-    fn base_value(&self) -> f64;
-    fn base_unit(&self) -> &str;
-}
-
-impl std::fmt::Display for dyn Quantity {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{} {}", self.base_value(), self.base_unit())
-    }
-}
-
 macro_rules! qty_ctor {
     (@impl ($ctor:ident, $getter:ident, $unit:tt, $exp:literal) $(,)?) => {
         pub fn $ctor(value: f64) -> Self {

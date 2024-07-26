@@ -1,18 +1,8 @@
-use super::{Percentage, Power, Quantity, Voltage};
+use super::{Percentage, Power, Voltage};
 
 #[derive(Copy, Clone)]
 pub struct Current {
     value: f64,
-}
-
-impl Quantity for Current {
-    fn base_value(&self) -> f64 {
-        self.value
-    }
-
-    fn base_unit(&self) -> &str {
-        "A"
-    }
 }
 
 qty_ctor! {

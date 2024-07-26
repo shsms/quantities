@@ -48,7 +48,7 @@ impl Power {
     }
 
     fn __str__(&self) -> String {
-        (&self.0 as &dyn quantity::Quantity).to_string()
+        self.0.to_string()
     }
 
     fn __add__(&self, rhs: Self) -> Self {

@@ -1,18 +1,8 @@
-use super::{Percentage, Power, Quantity};
+use super::{Percentage, Power};
 
 #[derive(Copy, Clone)]
 pub struct Energy {
     value: f64,
-}
-
-impl Quantity for Energy {
-    fn base_value(&self) -> f64 {
-        self.value
-    }
-
-    fn base_unit(&self) -> &str {
-        "Wh"
-    }
 }
 
 qty_ctor! {

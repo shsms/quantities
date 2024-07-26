@@ -1,18 +1,6 @@
-use super::Quantity;
-
 #[derive(Copy, Clone)]
 pub struct Percentage {
     value: f64,
-}
-
-impl Quantity for Percentage {
-    fn base_value(&self) -> f64 {
-        self.value
-    }
-
-    fn base_unit(&self) -> &str {
-        "%"
-    }
 }
 
 qty_ctor! {
