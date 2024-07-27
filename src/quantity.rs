@@ -131,6 +131,7 @@ mod current;
 mod energy;
 mod percentage;
 mod power;
+mod temperature;
 mod voltage;
 
 pub use current::Current;
