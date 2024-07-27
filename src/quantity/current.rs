@@ -7,8 +7,8 @@ pub struct Current {
 
 qty_ctor! {
     Current => {
-        (from_milliamperes, as_milliamperes, "mA", 0.001),
-        (from_amperes, as_amperes, "A", 1.0),
+        (from_milliamperes, as_milliamperes, "mA", 10e-3),
+        (from_amperes, as_amperes, "A", 10e0),
     }
 }
 

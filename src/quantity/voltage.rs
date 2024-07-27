@@ -7,9 +7,9 @@ pub struct Voltage {
 
 qty_ctor! {
     Voltage => {
-        (from_millivolts, as_millivolts, "mV", 0.001),
-        (from_volts, as_volts, "V", 1.0),
-        (from_kilovolts, as_kilovolts, "kV", 1000.0),
+        (from_millivolts, as_millivolts, "mV", 10e-3),
+        (from_volts, as_volts, "V", 10e0),
+        (from_kilovolts, as_kilovolts, "kV", 10e3),
     }
 }
 

@@ -7,11 +7,11 @@ pub struct Power {
 
 qty_ctor! {
     Power => {
-        (from_milliwatts, as_milliwatts, "mW", 0.001),
-        (from_watts, as_watts, "W", 1.0),
-        (from_kilowatts, as_kilowatts, "kW", 1000.0),
-        (from_megawatts, as_megawatts, "MW", 1_000_000.0),
-        (from_gigawatts, as_gigawatts, "GW", 1_000_000_000.0),
+        (from_milliwatts, as_milliwatts, "mW", 10e-3),
+        (from_watts, as_watts, "W", 10e0),
+        (from_kilowatts, as_kilowatts, "kW", 10e3),
+        (from_megawatts, as_megawatts, "MW", 10e6),
+        (from_gigawatts, as_gigawatts, "GW", 10e9),
     }
 }
 
