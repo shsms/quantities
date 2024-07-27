@@ -116,6 +116,24 @@ macro_rules! qty_ctor {
                 }
             }
         }
+
+        impl std::ops::Div<f64> for $typename {
+            type Output = Self;
+
+            fn div(self, other: f64) -> Self::Output {
+                Self {
+                    value: self.value / other,
+                }
+            }
+        }
+
+        impl std::ops::Div<$typename> for $typename {
+            type Output = f64;
+
+            fn div(self, other: Self) -> Self::Output {
+                self.value / other.value
+            }
+        }
     };
     ($typename:ident => {$($rest:tt)*}) => {
         impl $typename {
